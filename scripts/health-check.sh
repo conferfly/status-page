@@ -30,22 +30,28 @@ do
   url="${URLSARRAY[index]}"
   echo "  $key=$url"
 
-  for i in {1..3}
-  do
-    response=$(curl -o /dev/null -s -w '%{http_code} %{time_total}' --silent --output /dev/null "$url")
-    http_code=$(echo "$response" | cut -d ' ' -f 1)
-    time_total=$(echo "$response" | cut -d ' ' -f 2)
-    echo "    $http_code $time_total"
-    if [ "$http_code" -eq 200 ] || [ "$http_code" -eq 202 ] || [ "$http_code" -eq 301 ] || [ "$http_code" -eq 302 ] || [ "$http_code" -eq 307 ]; then
-      result="success"
-    else
-      result="failed"
-    fi
-    if [ "$result" = "success" ]; then
-      break
-    fi
-    sleep 5
-  done
+  if [ -z "$url" ]; then
+    result="success"
+    time_total="0"
+  else
+    for i in {1..3}
+    do
+      response=$(curl -o /dev/null -s -w '%{http_code} %{time_total}' --silent --output /dev/null "$url")
+      http_code=$(echo "$response" | cut -d ' ' -f 1)
+      time_total=$(echo "$response" | cut -d ' ' -f 2)
+      echo "    $http_code $time_total"
+      if [ "$http_code" -eq 200 ] || [ "$http_code" -eq 202 ] || [ "$http_code" -eq 301 ] || [ "$http_code" -eq 302 ] || [ "$http_code" -eq 307 ]; then
+        result="success"
+      else
+        result="failed"
+      fi
+      if [ "$result" = "success" ]; then
+        break
+      fi
+      sleep 5
+    done
+  fi
+
   dateTime=$(date +'%Y-%m-%d %H:%M')
   if [[ $commit == true ]]
   then

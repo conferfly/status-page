@@ -21,7 +21,7 @@ function useServices() {
                 for (let ii = 0; ii < configLines.length; ii++) {
                     const configLine = configLines[ii];
                     const [key, url] = configLine.split("=");
-                    if (!key || !url) {
+                    if (!key) {
                         continue;
                     }
                     const log = await logs(key);
@@ -46,7 +46,7 @@ function useServices() {
 }
 
 async function logs(key: string): Promise<LogDaySummary[]> {
-    const response = await fetch(`https://raw.githubusercontent.com/mehatab/fettle/main/public/status/${key}_report.log`);
+    const response = await fetch(`https://raw.githubusercontent.com/conferfly/status-page/main/public/status/${key}_report.log`);
 
     const text = await response.text();
     const lines = text.split("\n");
