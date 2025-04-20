@@ -3,7 +3,8 @@ name: Scheduled Health Check
 # Controls when the action will run.
 on:
   schedule:
-    - cron: "0 0/12 * * *"
+    - cron: '0 0 * * *'  # This will still allow it to run on the schedule
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   health_check_job:
