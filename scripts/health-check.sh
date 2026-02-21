@@ -68,7 +68,7 @@ if [[ $commit == true ]]
 then
   echo "committing logs"
   git config --global user.name 'Raad [bot]'
-  git config --global user.email 'raad.altaie@icloud.com'
+  git config --global user.email 'raad-altaie@@users.noreply.github.com'
   git add -A --force public/status/
   git commit -am '[Automated] Update Health Check Logs'
   git push
